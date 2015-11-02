@@ -78,6 +78,9 @@ function buffer(options, file, cb) {
     if (template) {
       if (!skipMinification) {
         template = minify(template, minifyOptions);
+        if (typeof minifyOptions.postProcess === "function") {
+          template = minifyOptions.postProcess(template);
+        }
       }
       contents = contents.replace(getTemplateRegex(url),
                                   'template: \'' + template + '\'');
